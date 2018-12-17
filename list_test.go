@@ -116,7 +116,7 @@ var _ = Describe("ListImages", func() {
 		})
 
 		It("should return a suitable error", func() {
-			Expect(os.IsNotExist(err)).To(BeTrue())
+			Expect(err).To(MatchError(HaveSuffix("no such file or directory")))
 		})
 	})
 
