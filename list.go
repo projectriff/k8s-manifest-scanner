@@ -2,6 +2,7 @@ package scan
 
 import (
 	"fmt"
+	"runtime"
 	"strings"
 
 	"github.com/ghodss/yaml"
@@ -18,6 +19,13 @@ func ListImages(res string, baseDir string) ([]string, error) {
 	imgs := []string{}
 
 	docs := strings.Split(string(contents), "---\n")
+	if runtime.GOOS == "windows" {
+		// allow lines to end in LF or CRLF since either may occur
+		d := strings.Split(string(contents), "---\r\n")
+		if len(d) > len(docs) {
+			docs = d
+		}
+	}
 	for _, doc := range docs {
 		if strings.TrimSpace(doc) != "" {
 			y := make(map[string]interface{})
