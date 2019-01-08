@@ -6,12 +6,12 @@ import (
 	"strings"
 
 	"github.com/ghodss/yaml"
-	"github.com/projectriff/riff/pkg/resource"
+	"github.com/projectriff/riff/pkg/fileutils"
 )
 
 func ListImages(res string, baseDir string) ([]string, error) {
 	fmt.Printf("Scanning %s\n", res)
-	contents, err := resource.Load(res, baseDir)
+	contents, err := fileutils.Read(res, baseDir)
 	if err != nil {
 		return nil, err
 	}
