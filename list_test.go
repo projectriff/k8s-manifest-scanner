@@ -93,7 +93,7 @@ var _ = Describe("ListImages", func() {
 		})
 	})
 
-	Context("when using a parameterized resource file", func() {
+	Context("when using a simple parameterized resource file", func() {
 		BeforeEach(func() {
 			res = "parameterized.yaml"
 		})
@@ -107,6 +107,17 @@ var _ = Describe("ListImages", func() {
 				"packs/util",
 				"packs/util",
 			))
+		})
+	})
+
+	Context("when using a more complex parameterized resource file", func() {
+		BeforeEach(func() {
+			res = "parameterized-2.yaml"
+		})
+
+		It("should list the image", func() {
+			Expect(err).NotTo(HaveOccurred())
+			Expect(images).To(ConsistOf("packs/run:v3alpha2", "projectriff/builder:0.2.0-snapshot-ci-63cd05079e1f", "ubuntu:18.04"))
 		})
 	})
 
