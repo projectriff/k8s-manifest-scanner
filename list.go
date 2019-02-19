@@ -48,7 +48,9 @@ func visitImages(y interface{}, visitor func(string)) {
 	case map[string]interface{}:
 		if val, ok := v["image"]; ok {
 			if vs, ok := val.(string); ok {
-				visitor(vs)
+				if !strings.HasPrefix(vs, "$") { // skip parameter usages
+					visitor(vs)
+				}
 			}
 		}
 
