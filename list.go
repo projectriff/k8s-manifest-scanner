@@ -6,12 +6,12 @@ import (
 	"strings"
 
 	"github.com/ghodss/yaml"
-	"github.com/projectriff/riff/pkg/fileutils"
+	"github.com/pivotal/go-ape/pkg/furl"
 )
 
 func ListImages(res string, baseDir string) ([]string, error) {
 	fmt.Printf("Scanning %s\n", res)
-	contents, err := fileutils.Read(res, baseDir)
+	contents, err := furl.Read(res, baseDir)
 	if err != nil {
 		return nil, err
 	}
