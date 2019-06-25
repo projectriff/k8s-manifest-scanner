@@ -6,7 +6,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/pivotal-cf/pfs/pkg/scan"
+	"github.com/pivotal/pfs/pkg/scan"
 )
 
 var _ = Describe("ListImages", func() {
