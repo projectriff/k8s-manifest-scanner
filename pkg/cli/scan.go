@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"sort"
 
 	"github.com/ghodss/yaml"
 	"github.com/projectriff/ciu/pkg/scan"
@@ -12,17 +13,17 @@ import (
 )
 
 type scanCmd struct {
-	file string
+	file        string
 	byteContent []byte
-	dest string
+	dest        string
 }
 
 func NewScanCommand() *cobra.Command {
 	sc := &scanCmd{}
-	cmd := &cobra.Command {
-		Use: "scan",
+	cmd := &cobra.Command{
+		Use:   "scan",
 		Short: "scans urls for images",
-		Args: cobra.ExactArgs(2),
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			sc.file = args[1]
 			return sc.run()
@@ -96,14 +97,25 @@ func (sc *scanCmd) scanKabManifestForImages() ([]string, error) {
 		panic("previously un-marshalled successfully. should not happen")
 	}
 
-	images := []string{}
+	images := map[string]struct{}{}
 	err = kabMfst.VisitResources(func(res v1alpha1.KabResource) error {
-		tmpImgs, err := scan.ListImages(res.Path, "")
+		imgs, err := scan.ListImages(res.Path, "")
 		if err != nil {
 			return err
 		}
-		images = append(images, tmpImgs...)
+		for _, i := range imgs {
+			images[i] = struct{}{}
+		}
 		return nil
 	})
-	return images, err
+	return keys(images), err
+}
+
+func keys(m map[string]struct{}) []string {
+	ks := []string{}
+	for k, _ := range m {
+		ks = append(ks, k)
+	}
+	sort.Strings(ks)
+	return ks
 }
