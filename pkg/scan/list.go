@@ -10,7 +10,6 @@ import (
 )
 
 func ListImages(res string, baseDir string) ([]string, error) {
-	fmt.Printf("Scanning %s\n", res)
 	contents, err := furl.Read(res, baseDir)
 	if err != nil {
 		return nil, err
