@@ -1,6 +1,6 @@
 .PHONY: build clean test all
 
-OUTPUT = ./bin/ciu
+OUTPUT = ./bin/k8s-manifest-scanner
 GO_SOURCES = $(shell find . -type f -name '*.go')
 VERSION ?= $(shell cat VERSION)
 
@@ -24,4 +24,4 @@ install: build
 	cp $(OUTPUT) $(GOBIN)
 
 build: $(GO_SOURCES) VERSION
-	GO111MODULE=on go build -o $(OUTPUT) ./cmd/ciu
+	GO111MODULE=on go build -o $(OUTPUT) ./cmd/k8s-manifest-scanner

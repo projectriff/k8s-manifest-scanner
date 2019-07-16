@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/projectriff/ciu/pkg/cli"
+	"github.com/projectriff/k8s-manifest-scanner/pkg/cli"
 )
 
 func main() {
