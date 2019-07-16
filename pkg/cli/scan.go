@@ -2,6 +2,7 @@ package cli
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"sort"
@@ -14,6 +15,7 @@ import (
 
 type scanCmd struct {
 	file        string
+	kabManifest bool
 	byteContent []byte
 	dest        string
 }
@@ -22,7 +24,7 @@ func NewScanCommand() *cobra.Command {
 	sc := &scanCmd{}
 	cmd := &cobra.Command{
 		Use:   "scan",
-		Short: "scans urls for images",
+		Short: "scans a kubernetes resource file for images",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			sc.file = args[1]
@@ -31,29 +33,39 @@ func NewScanCommand() *cobra.Command {
 	}
 
 	f := cmd.Flags()
-	f.StringVarP(&sc.dest, "output-file", "o", "images.json", "Save images to file path")
+	f.StringVarP(&sc.dest, "output-file", "o", "", "File for output")
+	f.BoolVarP(&sc.kabManifest, "kab-manifest", "k", false, "Input file is a kab manifest")
 	return cmd
 }
 
 func (sc *scanCmd) run() error {
-	isKabMfst, err := sc.isKabManifest()
+	var images []string
+
+	if !sc.kabManifest {
+		var err error
+		images, err = sc.scanKubernetesResourceFileForImages(sc.file)
+		if err != nil {
+			return err
+		}
+	} else {
+		_, err := sc.isKabManifest()
+		if err != nil {
+			return err
+		}
+		images, err = sc.scanKabManifestForImages()
+		if err != nil {
+			return err
+		}
+	}
+
+	jsonImages, err := json.MarshalIndent(images, "", "    ")
 	if err != nil {
-		return err
+		os.Exit(1)
 	}
-	if isKabMfst {
-		images, err := sc.scanKabManifestForImages()
-		if err != nil {
-			return err
-		}
-		mfstBytes, err := json.MarshalIndent(images, "", "    ")
-		if err != nil {
-			os.Exit(1)
-		}
-		err = ioutil.WriteFile(sc.dest, mfstBytes, 0644)
-		if err != nil {
-			return err
-		}
+	if sc.dest != "" {
+		return ioutil.WriteFile(sc.dest, jsonImages, 0644)
 	}
+	fmt.Println(string(jsonImages))
 
 	return nil
 }
@@ -99,6 +111,7 @@ func (sc *scanCmd) scanKabManifestForImages() ([]string, error) {
 
 	images := map[string]struct{}{}
 	err = kabMfst.VisitResources(func(res v1alpha1.KabResource) error {
+		fmt.Fprintf(os.Stderr, "Scanning %s\n", res.Path)
 		imgs, err := scan.ListImages(res.Path, "")
 		if err != nil {
 			return err
@@ -108,6 +121,18 @@ func (sc *scanCmd) scanKabManifestForImages() ([]string, error) {
 		}
 		return nil
 	})
+	return keys(images), err
+}
+
+func (sc *scanCmd) scanKubernetesResourceFileForImages(file string) ([]string, error) {
+	images := map[string]struct{}{}
+	imgs, err := scan.ListImages(file, "")
+	if err != nil {
+		return []string{}, err
+	}
+	for _, i := range imgs {
+		images[i] = struct{}{}
+	}
 	return keys(images), err
 }
 
