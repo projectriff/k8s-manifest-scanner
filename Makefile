@@ -15,10 +15,10 @@ check-goimports:
 	@which goimports > /dev/null || (echo goimports not found: issue \"GO111MODULE=off go get golang.org/x/tools/cmd/goimports\" && false)
 
 goimports: check-goimports
-	@goimports -w cmd
+	@goimports -w pkg cmd
 
 verify-goimports: check-goimports
-	@goimports -l pkg main.go | (! grep .) || (echo above files are not formatted correctly. please run \"make goimports\" && false)
+	@goimports -l pkg cmd | (! grep .) || (echo above files are not formatted correctly. please run \"make goimports\" && false)
 
 install: build
 	cp $(OUTPUT) $(GOBIN)
