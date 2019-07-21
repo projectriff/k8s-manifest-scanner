@@ -137,7 +137,7 @@ var _ = Describe("ListImagesFromKubernetesManifest", func() {
 		})
 
 		It("should return a suitable error", func() {
-			Expect(err).To(MatchError(HavePrefix("error parsing resource file")))
+			Expect(err).To(MatchError(HavePrefix("error parsing content")))
 		})
 	})
 })

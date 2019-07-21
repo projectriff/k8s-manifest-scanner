@@ -24,7 +24,20 @@ func ListImagesFromKubernetesManifest(res string, baseDir string) ([]string, err
 	if err != nil {
 		return nil, err
 	}
+	return ListImagesFromContent(contents)
+}
 
+func ListSortedImagesFromContent(contents []byte) ([]string, error) {
+	images, err := ListImagesFromContent(contents)
+	if err != nil {
+		return nil, err
+	}
+	sort.Strings(images)
+	return images, nil
+}
+
+func ListImagesFromContent(contents []byte) ([]string, error) {
+	var err error
 	imgs := []string{}
 
 	docs := strings.Split(string(contents), "---\n")
@@ -40,7 +53,7 @@ func ListImagesFromKubernetesManifest(res string, baseDir string) ([]string, err
 			y := make(map[string]interface{})
 			err = yaml.Unmarshal([]byte(doc), &y)
 			if err != nil {
-				return nil, fmt.Errorf("error parsing resource file %s: %v", res, err)
+				return nil, fmt.Errorf("error parsing content: %v", err)
 			}
 
 			visitImages(y, func(imageName string) {
