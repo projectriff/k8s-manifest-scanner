@@ -23,6 +23,7 @@ type scanCmd struct {
 
 func NewScanCommand() *cobra.Command {
 	sc := &scanCmd{}
+
 	cmd := &cobra.Command{
 		Use:   "scan",
 		Short: "scans a kubernetes resource file for images",
@@ -113,7 +114,7 @@ func (sc *scanCmd) scanKabManifestForImages() ([]string, error) {
 	images := map[string]struct{}{}
 	err = kabMfst.VisitResources(func(res v1alpha1.KabResource) error {
 		fmt.Fprintf(os.Stderr, "Scanning %s\n", res.Path)
-		imgs, err := scan.ListImages(res.Path, "")
+		imgs, err := scan.ListImagesFromKubernetesManifest(res.Path, "")
 		if err != nil {
 			return err
 		}
@@ -127,7 +128,7 @@ func (sc *scanCmd) scanKabManifestForImages() ([]string, error) {
 
 func (sc *scanCmd) scanKubernetesResourceFileForImages(file string) ([]string, error) {
 	images := map[string]struct{}{}
-	imgs, err := scan.ListImages(file, "")
+	imgs, err := scan.ListImagesFromKubernetesManifest(file, "")
 	if err != nil {
 		return []string{}, err
 	}

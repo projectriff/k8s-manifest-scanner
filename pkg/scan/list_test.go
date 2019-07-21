@@ -9,7 +9,7 @@ import (
 	"github.com/projectriff/k8s-manifest-scanner/pkg/scan"
 )
 
-var _ = Describe("ListImages", func() {
+var _ = Describe("ListImagesFromKubernetesManifest", func() {
 	var (
 		res     string
 		baseDir string
@@ -24,7 +24,7 @@ var _ = Describe("ListImages", func() {
 	})
 
 	JustBeforeEach(func() {
-		images, err = scan.ListImages(res, baseDir)
+		images, err = scan.ListImagesFromKubernetesManifest(res, baseDir)
 	})
 
 	Context("when the resource file names an image directly", func() {
@@ -138,6 +138,46 @@ var _ = Describe("ListImages", func() {
 
 		It("should return a suitable error", func() {
 			Expect(err).To(MatchError(HavePrefix("error parsing resource file")))
+		})
+	})
+})
+
+var _ = Describe("ListSortedImagesFromKubernetesManifest", func() {
+	var (
+		res     string
+		baseDir string
+		images  []string
+		err     error
+	)
+
+	BeforeEach(func() {
+		wd, err := os.Getwd()
+		Expect(err).NotTo(HaveOccurred())
+		baseDir = filepath.Join(wd, "fixtures")
+	})
+
+	JustBeforeEach(func() {
+		images, err = scan.ListSortedImagesFromKubernetesManifest(res, baseDir)
+	})
+
+	Context("when the resource file names an image directly", func() {
+		BeforeEach(func() {
+			res = "complex.yaml"
+		})
+
+		It("should list the image", func() {
+			Expect(err).NotTo(HaveOccurred())
+			Expect(images).To(ConsistOf("docker.io/istio/proxyv2:0.8.0",
+				"gcr.io/knative-releases/github.com/knative/build/cmd/controller@sha256:3981b19105aabf3ed66db38c15407dc7accf026f4f4703d7e0ca7986ffd37d99",
+				"gcr.io/knative-releases/github.com/knative/build/cmd/creds-init@sha256:b5dff24742c5c8ac4673dc991e3f960d11b58efdf751d26c54ec5144c48eef30",
+				"gcr.io/knative-releases/github.com/knative/build/cmd/git-init@sha256:fe0d19e5da3fc9e7da20abc13d032beafcc283358a8325188dced62536a66e54",
+				"gcr.io/knative-releases/github.com/knative/build/cmd/webhook@sha256:b9a97b7d360e10e540edfc9329e4f1c01832e58bf57d5dddea5c3a664f64bfc6",
+				"gcr.io/knative-releases/github.com/knative/serving/cmd/activator@sha256:e83258dd5858c8b1e92dbd413d0857ad2b22a7c4215ed911f256f68e2972f362",
+				"gcr.io/knative-releases/github.com/knative/serving/cmd/autoscaler@sha256:76222399addc02454db9837ea3ff54bae29849168586051a9d0180daa2c1a805",
+				"gcr.io/knative-releases/github.com/knative/serving/cmd/controller@sha256:28db335f18cbd2a015fd218b9c7ce30b4366898fa3728a7f6dab6537991de028",
+				"gcr.io/knative-releases/github.com/knative/serving/cmd/queue@sha256:99c841aa72c2928d1bf333348a848b5afb182715a2a0441da6282c86d4be807e",
+				"gcr.io/knative-releases/github.com/knative/serving/cmd/webhook@sha256:50ea89c48f8890fbe0cee336fc5cbdadcfe6884afbe5977db5d66892095b397d",
+				"k8s.gcr.io/fluentd-elasticsearch:v2.0.4"))
 		})
 	})
 })

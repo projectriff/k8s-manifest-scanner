@@ -3,13 +3,23 @@ package scan
 import (
 	"fmt"
 	"runtime"
+	"sort"
 	"strings"
 
 	"github.com/ghodss/yaml"
 	"github.com/pivotal/go-ape/pkg/furl"
 )
 
-func ListImages(res string, baseDir string) ([]string, error) {
+func ListSortedImagesFromKubernetesManifest(res string, baseDir string) ([]string, error) {
+	images, err := ListImagesFromKubernetesManifest(res, baseDir)
+	if err != nil {
+		return nil, err
+	}
+	sort.Strings(images)
+	return images, nil
+}
+
+func ListImagesFromKubernetesManifest(res string, baseDir string) ([]string, error) {
 	contents, err := furl.Read(res, baseDir)
 	if err != nil {
 		return nil, err
