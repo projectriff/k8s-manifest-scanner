@@ -4,8 +4,8 @@ go 1.12
 
 require (
 	github.com/Masterminds/semver v1.4.2 // indirect
-	github.com/deislabs/cnab-go v0.1.2-beta1
-	github.com/deislabs/duffle v0.0.0-20190711145605-d76dbc15b35f
+	github.com/deislabs/cnab-go v0.3.3-beta1
+	github.com/deislabs/duffle v0.0.0-20190828143524-44aad89f21ee
 	github.com/docker/go v1.5.1-1 // indirect
 	github.com/ghodss/yaml v1.0.0
 	github.com/onsi/ginkgo v1.8.0
