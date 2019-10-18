@@ -2,7 +2,6 @@ package scan_test
 
 import (
 	"os"
-	"path/filepath"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -11,20 +10,13 @@ import (
 
 var _ = Describe("ListImagesFromKubernetesManifest", func() {
 	var (
-		res     string
-		baseDir string
-		images  []string
-		err     error
+		res    string
+		images []string
+		err    error
 	)
 
-	BeforeEach(func() {
-		wd, err := os.Getwd()
-		Expect(err).NotTo(HaveOccurred())
-		baseDir = filepath.Join(wd, "fixtures")
-	})
-
 	JustBeforeEach(func() {
-		images, err = scan.ListImagesFromKubernetesManifest(res, baseDir)
+		images, err = scan.ListImagesFromKubernetesManifest(res, "testdata")
 	})
 
 	Context("when the resource file names an image directly", func() {
@@ -144,20 +136,13 @@ var _ = Describe("ListImagesFromKubernetesManifest", func() {
 
 var _ = Describe("ListSortedImagesFromKubernetesManifest", func() {
 	var (
-		res     string
-		baseDir string
-		images  []string
-		err     error
+		res    string
+		images []string
+		err    error
 	)
 
-	BeforeEach(func() {
-		wd, err := os.Getwd()
-		Expect(err).NotTo(HaveOccurred())
-		baseDir = filepath.Join(wd, "fixtures")
-	})
-
 	JustBeforeEach(func() {
-		images, err = scan.ListSortedImagesFromKubernetesManifest(res, baseDir)
+		images, err = scan.ListSortedImagesFromKubernetesManifest(res, "testdata")
 	})
 
 	Context("when the resource file names an image directly", func() {
