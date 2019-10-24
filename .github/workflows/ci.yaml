@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - '**'
+    - '!dependabot/**'
+  pull_request: {}
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-go@v1
+      with:
+        go-version: '1.13'
+    - name: Build
+      run: go build ./cmd/k8s-manifest-scanner
+    - name: Test
+      run: go test ./...
