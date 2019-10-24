@@ -16,8 +16,9 @@ jobs:
     - uses: actions/setup-go@v1
       with:
         go-version: '1.13'
-    - name: Install tools
+    - name: Install goimports
       run: |
         GO111MODULE=off go get golang.org/x/tools/cmd/goimports
+        echo "##[add-path]$(go env GOPATH)/bin"
     - name: Build & Test
       run: make build test verify-goimports
