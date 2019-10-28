@@ -7,6 +7,7 @@ require (
 	github.com/deislabs/cnab-go v0.7.1-beta1
 	github.com/deislabs/duffle v0.0.0-20190828143524-44aad89f21ee
 	github.com/docker/go v1.5.1-1 // indirect
+	github.com/dprotaso/go-yit v0.0.0-20191028173743-636c07e8f601
 	github.com/ghodss/yaml v1.0.0
 	github.com/onsi/ginkgo v1.10.3
 	github.com/onsi/gomega v1.7.1
@@ -16,4 +17,5 @@ require (
 	github.com/qri-io/jsonschema v0.1.1 // indirect
 	github.com/spf13/cobra v0.0.5
 	github.com/technosophos/moniker v0.0.0-20180509230615-a5dbd03a2245 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20191026110619-0b21df46bc1d
 )

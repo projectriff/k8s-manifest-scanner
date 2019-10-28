@@ -118,7 +118,7 @@ var _ = Describe("ListImagesFromKubernetesManifest", func() {
 		})
 
 		It("should return a suitable error", func() {
-			Expect(err).To(MatchError(HavePrefix("error parsing content")))
+			Expect(err).To(MatchError(ContainSubstring("unexpected end of stream")))
 		})
 	})
 })
