@@ -52,17 +52,6 @@ var _ = Describe("ListImagesFromKubernetesManifest", func() {
 		})
 	})
 
-	Context("when the resource file contains block scalars containing images", func() {
-		BeforeEach(func() {
-			res = "block.yaml"
-		})
-
-		It("should list the images", func() {
-			Expect(err).NotTo(HaveOccurred())
-			Expect(images).To(ConsistOf("docker.io/istio/proxy_init:1.0.1"))
-		})
-	})
-
 	Context("when using a realistic resource file", func() {
 		BeforeEach(func() {
 			res = "complex.yaml"
