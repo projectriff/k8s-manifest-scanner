@@ -11,7 +11,7 @@ import (
 	"github.com/deislabs/duffle/pkg/duffle/manifest"
 	"github.com/ghodss/yaml"
 	"github.com/pivotal/image-relocation/pkg/image"
-	"github.com/pivotal/image-relocation/pkg/registry"
+	"github.com/pivotal/image-relocation/pkg/registry/ggcr"
 	"github.com/projectriff/cnab-k8s-installer-base/pkg/apis/kab/v1alpha1"
 	"github.com/projectriff/k8s-manifest-scanner/pkg/scan"
 )
@@ -45,7 +45,7 @@ func Finalize(bundlePath, kabManifestPath string) error {
 	}
 
 	mfst.Images = map[string]bundle.Image{}
-	registryClient := registry.NewRegistryClient()
+	registryClient := ggcr.NewRegistryClient()
 	replacements := []string{}
 
 	for _, img := range images {

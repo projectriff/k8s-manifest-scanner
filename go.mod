@@ -11,10 +11,9 @@ require (
 	github.com/onsi/ginkgo v1.10.3
 	github.com/onsi/gomega v1.7.1
 	github.com/pivotal/go-ape v0.0.0-20190410083726-7e1e93138a02
-	github.com/pivotal/image-relocation v0.0.0-20190529143833-1445a3d1e9b6
+	github.com/pivotal/image-relocation v0.0.0-20191017152834-2212ca418359
 	github.com/projectriff/cnab-k8s-installer-base v0.0.0-20190726153313-2fee61a2c31f
 	github.com/qri-io/jsonschema v0.1.1 // indirect
 	github.com/spf13/cobra v0.0.5
-	github.com/spf13/viper v1.4.0 // indirect
 	github.com/technosophos/moniker v0.0.0-20180509230615-a5dbd03a2245 // indirect
 )
