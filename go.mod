@@ -8,7 +8,7 @@ require (
 	github.com/deislabs/duffle v0.0.0-20190828143524-44aad89f21ee
 	github.com/docker/go v1.5.1-1 // indirect
 	github.com/ghodss/yaml v1.0.0
-	github.com/onsi/ginkgo v1.10.2
+	github.com/onsi/ginkgo v1.10.3
 	github.com/onsi/gomega v1.7.0
 	github.com/pivotal/go-ape v0.0.0-20190410083726-7e1e93138a02
 	github.com/pivotal/image-relocation v0.0.0-20190529143833-1445a3d1e9b6
