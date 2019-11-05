@@ -7,14 +7,12 @@ import (
 	"os"
 
 	"github.com/projectriff/k8s-manifest-scanner/pkg/scan"
-
 	"github.com/spf13/cobra"
 )
 
 type scanCmd struct {
-	file        string
-	byteContent []byte
-	dest        string
+	file string
+	dest string
 }
 
 func NewScanCommand() *cobra.Command {

@@ -2,7 +2,6 @@ package scan_test
 
 import (
 	"os"
-	"path/filepath"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -11,20 +10,13 @@ import (
 
 var _ = Describe("ListImagesFromKubernetesManifest", func() {
 	var (
-		res     string
-		baseDir string
-		images  []string
-		err     error
+		res    string
+		images []string
+		err    error
 	)
 
-	BeforeEach(func() {
-		wd, err := os.Getwd()
-		Expect(err).NotTo(HaveOccurred())
-		baseDir = filepath.Join(wd, "fixtures")
-	})
-
 	JustBeforeEach(func() {
-		images, err = scan.ListImagesFromKubernetesManifest(res, baseDir)
+		images, err = scan.ListImagesFromKubernetesManifest(res, "testdata")
 	})
 
 	Context("when the resource file names an image directly", func() {
@@ -57,17 +49,6 @@ var _ = Describe("ListImagesFromKubernetesManifest", func() {
 		It("should list the images", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(images).To(ConsistOf("gcr.io/knative-releases/e/f", "k8s.gcr.io/fluentd-elasticsearch:v2.0.4"))
-		})
-	})
-
-	Context("when the resource file contains block scalars containing images", func() {
-		BeforeEach(func() {
-			res = "block.yaml"
-		})
-
-		It("should list the images", func() {
-			Expect(err).NotTo(HaveOccurred())
-			Expect(images).To(ConsistOf("docker.io/istio/proxy_init:1.0.1"))
 		})
 	})
 
@@ -137,27 +118,20 @@ var _ = Describe("ListImagesFromKubernetesManifest", func() {
 		})
 
 		It("should return a suitable error", func() {
-			Expect(err).To(MatchError(HavePrefix("error parsing content")))
+			Expect(err).To(MatchError(ContainSubstring("unexpected end of stream")))
 		})
 	})
 })
 
 var _ = Describe("ListSortedImagesFromKubernetesManifest", func() {
 	var (
-		res     string
-		baseDir string
-		images  []string
-		err     error
+		res    string
+		images []string
+		err    error
 	)
 
-	BeforeEach(func() {
-		wd, err := os.Getwd()
-		Expect(err).NotTo(HaveOccurred())
-		baseDir = filepath.Join(wd, "fixtures")
-	})
-
 	JustBeforeEach(func() {
-		images, err = scan.ListSortedImagesFromKubernetesManifest(res, baseDir)
+		images, err = scan.ListSortedImagesFromKubernetesManifest(res, "testdata")
 	})
 
 	Context("when the resource file names an image directly", func() {

@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestResource(t *testing.T) {
+func TestScan(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Resource Suite")
+	RunSpecs(t, "Scan Suite")
 }
