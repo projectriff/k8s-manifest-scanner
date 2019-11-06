@@ -1,6 +1,7 @@
-.PHONY: build clean test all
+.PHONY: build clean install test all
 
-OUTPUT = ./bin/k8s-manifest-scanner
+SCANNER_OUTPUT = ./bin/k8s-manifest-scanner
+RESOLVER_OUTPUT = ./bin/k8s-tag-resolver
 GO_SOURCES = $(shell find . -type f -name '*.go')
 VERSION ?= $(shell cat VERSION)
 
@@ -20,8 +21,17 @@ goimports: check-goimports
 verify-goimports: check-goimports
 	@goimports -l pkg cmd | (! grep .) || (echo above files are not formatted correctly. please run \"make goimports\" && false)
 
-install: build
-	cp $(OUTPUT) $(GOBIN)
+clean:
+	rm -rf bin
+	rm coverage.txt
 
-build: $(GO_SOURCES) VERSION
-	GO111MODULE=on go build -o $(OUTPUT) ./cmd/k8s-manifest-scanner
+install: build
+	cp bin/* $(GOBIN)
+
+build: $(SCANNER_OUTPUT) $(RESOLVER_OUTPUT)
+
+$(SCANNER_OUTPUT): $(GO_SOURCES) go.mod go.sum VERSION
+	GO111MODULE=on go build -o $(SCANNER_OUTPUT) ./cmd/k8s-manifest-scanner
+
+$(RESOLVER_OUTPUT): $(GO_SOURCES) go.mod go.sum VERSION
+	GO111MODULE=on go build -o $(RESOLVER_OUTPUT) ./cmd/k8s-tag-resolver
