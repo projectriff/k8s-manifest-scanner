@@ -10,7 +10,7 @@ require (
 	github.com/dprotaso/go-yit v0.0.0-20191028173743-636c07e8f601
 	github.com/ghodss/yaml v1.0.0
 	github.com/google/go-containerregistry v0.0.0-20191015185424-71da34e4d9b3
-	github.com/onsi/ginkgo v1.11.0
+	github.com/onsi/ginkgo v1.12.0
 	github.com/onsi/gomega v1.8.1
 	github.com/pivotal/go-ape v0.0.0-20190410083726-7e1e93138a02
 	github.com/pivotal/image-relocation v0.0.0-20191017152834-2212ca418359
