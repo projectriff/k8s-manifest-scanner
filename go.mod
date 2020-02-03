@@ -11,7 +11,7 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/google/go-containerregistry v0.0.0-20191015185424-71da34e4d9b3
 	github.com/onsi/ginkgo v1.11.0
-	github.com/onsi/gomega v1.8.1
+	github.com/onsi/gomega v1.9.0
 	github.com/pivotal/go-ape v0.0.0-20190410083726-7e1e93138a02
 	github.com/pivotal/image-relocation v0.0.0-20191017152834-2212ca418359
 	github.com/projectriff/cnab-k8s-installer-base v0.0.0-20190726153313-2fee61a2c31f
