@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/deislabs/cnab-go/bundle"
-	"github.com/deislabs/duffle/pkg/duffle/manifest"
+	"github.com/cnabio/cnab-go/bundle"
+	"github.com/cnabio/duffle/pkg/duffle/manifest"
 	"github.com/ghodss/yaml"
 	"github.com/pivotal/image-relocation/pkg/image"
 	"github.com/pivotal/image-relocation/pkg/registry/ggcr"
