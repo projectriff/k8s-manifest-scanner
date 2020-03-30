@@ -16,7 +16,7 @@ require (
 	github.com/pivotal/image-relocation v0.0.0-20191017152834-2212ca418359
 	github.com/projectriff/cnab-k8s-installer-base v0.0.0-20190726153313-2fee61a2c31f
 	github.com/qri-io/jsonschema v0.1.1 // indirect
-	github.com/spf13/cobra v0.0.6
+	github.com/spf13/cobra v0.0.7
 	github.com/technosophos/moniker v0.0.0-20180509230615-a5dbd03a2245 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20191026110619-0b21df46bc1d
 )
